@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: stefano
+      POSTGRES_DB: coin
+    ports:
+      - "5432:5432"
+    # volumes:
+    #   - /home/stefanovivas/coin-pipeline:/var/lib/postgresql/data 
+    networks:
+      - postgres-compose-network
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: stefanovivas@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - postgres-compose-network
+
+networks: 
+  postgres-compose-network:
+    driver: bridge
